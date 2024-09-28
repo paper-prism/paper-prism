@@ -21,7 +21,6 @@ body {
 .title {
     text-align: center;
     margin-bottom: 30px;
-    /* 기존보다 더 많은 여백을 줍니다. */
 }
 
 .title h1 {
@@ -38,7 +37,12 @@ body {
 
 .title h1:hover {
     transform: scale(1.05);
-    /* 마우스를 올렸을 때 약간 확대 */
+}
+
+.content {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .graph {
@@ -47,15 +51,32 @@ body {
     margin-bottom: 20px;
 }
 
-.graph img {
+#emotion-chart {
     width: 100%;
     max-width: 800px;
-    border-radius: 8px;
+    height: 400px;
 }
 
 .paragraph {
-    text-align: justify;
-    margin-bottom: 20px;
+    width: 80%; /* 컨테이너 너비의 80% 차지 */
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 20px; /* 내부 여백 */
+    border: 2px solid #e0e0e0; /* 박스 테두리 */
+    border-radius: 8px; /* 박스 모서리 둥글게 */
+    background-color: #f9f9f9; /* 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.paragraph span {
+    display: block; /* 별도 행에 표시 */
+    font-weight: bold;
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    font-size: 1.2rem;
+}
+
+.paragraph p {
     line-height: 1.6;
     color: #555;
 }
@@ -73,6 +94,12 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
+}
+
+.link-box a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
 }
 
 .link-box:hover {

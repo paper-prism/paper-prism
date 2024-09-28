@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +6,6 @@
     <title>Emotion Analysis Layout</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="container">
         <!-- Title Section -->
@@ -16,39 +14,39 @@
             <hr>
         </header>
 
-        <!-- Graph Section -->
-        <section class="graph">
-            <img src="mock_chart.png" alt="Emotion Analysis Graph">
-        </section>
+        <!-- Content Section -->
+        <div class="content">
+            <!-- Graph Section -->
+            <section class="graph">
+                <svg id="emotion-chart"></svg>
+            </section>
 
-        <!-- Paragraph Section -->
-        <section class="paragraph">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra ipsum eu nunc malesuada, eget
-                dignissim justo malesuada. Nam eget eros vestibulum, vulputate turpis quis, malesuada metus. Sed
-                euismod, lacus in mattis vestibulum, tortor risus vehicula nisi, vitae viverra dui lectus sed velit.
-                Mauris lacinia turpis vel odio consequat, at tincidunt lacus facilisis. Donec laoreet velit eget tortor
-                finibus vestibulum. Sed neque nunc, consequat et turpis id, bibendum interdum felis. Integer non arcu
-                mi. Sed magna ante, congue at lacinia non, bibendum in dolor.
-            </p>
-        </section>
+            <!-- Paragraph Section -->
+            <section class="paragraph">
+                <span>Paragraph</span>
+                <p>
+                    Hover over a data point to see the corresponding paragraph.
+                </p>
+            </section>
 
-        <!-- Links Section -->
-        <section class="links">
-            <div class="link-box">Huggingface link</div>
-            <div class="link-box"><a href="https://github.com/paper-prism/paper-prism">Github link</a></div>
-        </section>
+            <!-- Links Section -->
+            <section class="links">
+                <div class="link-box"><a href="#">Huggingface link</a></div>
+                <div class="link-box"><a href="https://github.com/paper-prism/paper-prism">Github link</a></div>
+                <div class="link-box"><a href="#">Google ML Bootcamp</a></div>
+            </section>
 
-        <!-- Project Description Section -->
-        <footer class="project-description">
-            <p>
-                PaperPrism is a project that translates books into a series of colors representing different emotions.
-                This project utilizes the fine-tuned Gemma model to analyze emotional tones in the text and displays
-                these emotions using colors, alongside key quotes from the book.
-            </p>
-        </footer>
+            <!-- Project Description Section -->
+            <footer class="project-description">
+                <p>
+                    PaperPrism is a project that translates books into a series of colors representing different emotions.
+                    This project utilizes the fine-tuned Gemma model to analyze emotional tones in the text and displays
+                    these emotions using colors, alongside key quotes from the book.
+                </p>
+            </footer>
+        </div>
     </div>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
