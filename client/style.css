@@ -33,8 +33,6 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     letter-spacing: 2px;
     transition: transform 0.3s ease;
-    width: 100%; /* 제목의 너비를 설정 */
-    box-sizing: border-box; /* padding을 포함하여 크기를 설정 */
 }
 
 .title h1:hover {
@@ -42,9 +40,9 @@ body {
 }
 
 .content {
-    width: 100%; /* 제목 너비에 맞추기 위해 content의 너비 설정 */
-    box-sizing: border-box; /* padding을 포함하여 크기를 설정 */
-    text-align: center; /* 내부 텍스트를 가운데 정렬 */
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .graph {
@@ -60,8 +58,25 @@ body {
 }
 
 .paragraph {
-    text-align: justify;
-    margin-bottom: 20px;
+    width: 80%; /* 컨테이너 너비의 80% 차지 */
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 20px; /* 내부 여백 */
+    border: 2px solid #e0e0e0; /* 박스 테두리 */
+    border-radius: 8px; /* 박스 모서리 둥글게 */
+    background-color: #f9f9f9; /* 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.paragraph span {
+    display: block; /* 별도 행에 표시 */
+    font-weight: bold;
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    font-size: 1.2rem;
+}
+
+.paragraph p {
     line-height: 1.6;
     color: #555;
 }
