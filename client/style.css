@@ -33,10 +33,18 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     letter-spacing: 2px;
     transition: transform 0.3s ease;
+    width: 100%; /* 제목의 너비를 설정 */
+    box-sizing: border-box; /* padding을 포함하여 크기를 설정 */
 }
 
 .title h1:hover {
     transform: scale(1.05);
+}
+
+.content {
+    width: 100%; /* 제목 너비에 맞추기 위해 content의 너비 설정 */
+    box-sizing: border-box; /* padding을 포함하여 크기를 설정 */
+    text-align: center; /* 내부 텍스트를 가운데 정렬 */
 }
 
 .graph {
