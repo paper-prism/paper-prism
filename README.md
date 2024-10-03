@@ -17,7 +17,7 @@
 |||
 |:---:|:---:|
 |1)| ![image](https://github.com/user-attachments/assets/c70c5397-eb61-45c8-93e4-39e8a9dbc4f8) |
-|2)|Create input -> Save Output |
+|2)|Create input -> Save Output(to json) |
 
 
 
