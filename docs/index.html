@@ -16,6 +16,13 @@
 
         <!-- Content Section -->
         <div class="content">
+
+            <div class="chunk-container">
+                <div class="slider-wrapper">
+                    <input type="range" id="chunk-slider" min="1" max="100" value="1">
+                    <output id="chunk-display">Chunk: 1</output>
+                </div>
+            </div>
             <!-- Graph Section -->
             <section class="graph">
                 <svg id="emotion-chart"></svg>
@@ -31,9 +38,9 @@
 
             <!-- Links Section -->
             <section class="links">
-                <div class="link-box"><a href="#">Huggingface link</a></div>
+                <div class="link-box"><a href="https://huggingface.co/Quiett/PaperPrism_gemma2">Huggingface link</a></div>
                 <div class="link-box"><a href="https://github.com/paper-prism/paper-prism">Github link</a></div>
-                <div class="link-box"><a href="#">Google ML Bootcamp</a></div>
+                <div class="link-box"><a href="https://rsvp.withgoogle.com/events/google-machine-learning-bootcamp-kr-2024/home">Google ML Bootcamp</a></div>
             </section>
 
             <!-- Project Description Section -->
@@ -46,7 +53,8 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="script.js"></script>
+    <script src="newscript.js"  type="module"></script>
 </body>
 </html>

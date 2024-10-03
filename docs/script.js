@@ -1,7 +1,8 @@
 // JSON 파일에서 데이터를 불러와서 차트를 생성
-fetch('data/emotion_data.json')
+fetch('data/moby_dick.json')
     .then(response => response.json())
     .then(data => {
+        console.log(data.length)
         createChart(data);
     })
     .catch(error => console.error('Error loading the data:', error));
