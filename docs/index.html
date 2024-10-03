@@ -16,6 +16,13 @@
 
         <!-- Content Section -->
         <div class="content">
+
+            <div class="chunk-container">
+                <div class="slider-wrapper">
+                    <input type="range" id="chunk-slider" min="1" max="100" value="1">
+                    <output id="chunk-display">Chunk: 1</output>
+                </div>
+            </div>
             <!-- Graph Section -->
             <section class="graph">
                 <svg id="emotion-chart"></svg>
@@ -46,6 +53,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="newscript.js"  type="module"></script>
 </body>

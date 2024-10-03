@@ -1,11 +1,12 @@
-async function createChart() {
+// Fetch data
+const mobyDickJson = await d3.json("data/moby_dick.json")
+const chunk = 1; // 1 ~ 1000
+const chunkedData = _.chunk(mobyDickJson, chunk);
 
-  // Fetch data/
-  const mobyDickJson = await d3.json("data/moby_dick.json")
-    // .then(d => d.slice(0, 100));
+await createChart(chunkedData);
 
-  // size of the data
-  const sizeOfData = Object.keys(mobyDickJson).length;
+async function createChart(chunkedData) {
+  const chunkedSize = chunkedData.length;
   const emotionToDomainIndex = {
     "anger": 0,
     "fear": 1,
@@ -30,7 +31,7 @@ async function createChart() {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  const x = d3.scaleLinear([0, sizeOfData - 1], [0, innerWidth]);
+  const x = d3.scaleLinear([0, chunkedSize - 1], [0, innerWidth]);
   const y = d3.scaleLinear([0, 1], [innerHeight, 0]);
   
   // color
@@ -45,7 +46,6 @@ async function createChart() {
     .keys(d3.range(sizeOfDomain))
     .order(d3.stackOrderNone);
 
-  // Replace the d3.create("svg") with d3.select("#emotion-chart").append("svg")
   const svg = d3.select("#emotion-chart")
     .attr("width", width)
     .attr("height", height)
@@ -58,16 +58,28 @@ async function createChart() {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  function layers(emotionJson) {
-    const dataSize = sizeOfData;
+  function getLayers(emotionJson) {
     const domainSize = sizeOfDomain;
-    
-    const layers = stack(Array.from({length: dataSize}, (_, i) => toPaddedArray(emotionJson[i])));
-    
-    function toPaddedArray(emotion) {
-      const layer = Array.from({ length: domainSize });
+    const maxLayers = Array.from({length: chunkedSize});
+    maxLayers.fill(0);
+    const layers = stack(Array.from({length: chunkedSize}, (_, i) => toPaddedArray(chunkedData[i], i)));
+    function toPaddedArray(emotions, i) {
+      // accumulate accuracy by the index of emotion
+      const layer = Array.from({length: domainSize});
       layer.fill(0);
-      layer[emotionToDomainIndex[emotion.label]] = emotion.accuracy;
+      // find the label that has max count number of each emotion label
+      const counts = _.countBy(emotions, 'label');
+      const maxLabel = _.maxBy(_.keys(counts), label => counts[label]);
+
+      // find the emotion with max accuracy for the max label
+      const maxAccuracy = _.maxBy(emotions.filter(emotion => emotion.label === maxLabel), 'accuracy');
+      
+      maxLayers[i] = maxAccuracy;
+
+      emotions.forEach((emotion) => {
+        layer[emotionToDomainIndex[emotion.label]] += emotion.accuracy;
+      });
+
       return layer;
     }
     
@@ -76,12 +88,17 @@ async function createChart() {
       d3.max(layers, l => d3.max(l, d => d[1]))
     ]);
     
-    return layers;
+    return {
+      layers,
+      maxLayers
+    }
   }
+
+  const { layers, maxLayers } = getLayers(chunkedData)
 
   const path = g
     .selectAll("path")
-    .data(layers(mobyDickJson))
+    .data(layers)
     .join("path")
     .attr("d", area)
     .attr("fill", (_, i) => z(i));
@@ -155,19 +172,34 @@ async function createChart() {
   function updateHoverEffects(event) {
     const [mouseX, mouseY] = d3.pointer(event, svg.node());
     const adjustedX = mouseX - margin.left;
+    const adjustedY = mouseY - margin.top;
     const dataIndex = Math.round(x.invert(adjustedX));
     
     hoverLine.attr("x1", adjustedX).attr("x2", adjustedX)
       .style("opacity", 1);
 
-    const currentData = mobyDickJson[dataIndex];
+    const currentData = layers.map(layer => layer[dataIndex]);
     if (currentData) {
+      const yValue = y.invert(adjustedY);
+      let selectedEmotion = "";
+      let accumulatedValue = 0;
+      
+      for (let i = 0; i < currentData.length; i++) {
+        const layerStart = currentData[i][0];
+        const layerEnd = currentData[i][1];
+        if (yValue >= layerStart && yValue <= layerEnd) {
+          selectedEmotion = Object.keys(emotionToDomainIndex).find(key => emotionToDomainIndex[key] === i);
+          accumulatedValue = layerEnd - layerStart;
+          break;
+        }
+      }
+
       tooltip.style("opacity", 1)
-        .html(`<strong>Label:</strong> ${currentData.label}<br><strong>Accuracy:</strong> ${currentData.accuracy.toFixed(4)}`)
+        .html(`<strong>Emotion:</strong> ${selectedEmotion}<br><strong>Accumulated Value:</strong> ${accumulatedValue.toFixed(4)}`)
         .style("left", (event.pageX + 15) + "px")
         .style("top", (event.pageY - 15) + "px");
 
-      d3.select(".paragraph p").text(currentData.paragraph);
+      d3.select(".paragraph p").text(maxLayers[dataIndex].paragraph);
     }
   }
 
@@ -185,4 +217,21 @@ async function createChart() {
   svg.on("mouseleave touchend", hideHoverEffects);
 }
 
-await createChart();
+async function updateChart(chunk) {
+  // Recalculate chunked data with new chunk
+  const newChunkedData = _.chunk(mobyDickJson, chunk);
+
+  // Clear existing chart
+  d3.select("#emotion-chart").selectAll("*").remove();
+
+  // Recreate chart with new data
+  await createChart(newChunkedData);
+
+  // Update chunk display if you have one
+  d3.select("#chunk-display").text(`Chunk: ${chunk}`);
+}
+
+document.getElementById('chunk-slider').addEventListener('change', function(event) {
+  const newChunk = parseInt(event.target.value);
+  updateChart(newChunk);
+});
